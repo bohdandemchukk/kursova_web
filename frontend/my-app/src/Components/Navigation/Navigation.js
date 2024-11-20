@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import avatar from '../../img/avatar.png';
-import { signout } from '../../utils/Icons';
-import { menuItems } from '../../utils/menuItems';
-
-function Navigation({ active, setActive, onLogout }) {
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import avatar from '../../img/avatar.png'
+import { signout } from '../../utils/Icons'
+import { menuItems } from '../../utils/menuItems'
+function Navigation({active, setActive}) {
+    
     return (
         <NavStyled>
             <div className="user-con">
-                <img src={avatar} alt="User Avatar" />
+                <img src={avatar} alt="" />
                 <div className="text">
                     <h2>Демчук Богдан</h2>
                     <p>Бюджет</p>
@@ -16,27 +16,24 @@ function Navigation({ active, setActive, onLogout }) {
             </div>
             <ul className="menu-items">
                 {menuItems.map((item) => {
-                    return (
-                        <li
-                            key={item.id}
-                            onClick={() => setActive(item.id)}
-                            className={active === item.id ? 'active' : ''}
-                        >
-                            {item.icon}
-                            <span>{item.title}</span>
-                        </li>
-                    );
+                    return <li
+                        key={item.id}
+                        onClick={() => setActive(item.id)}
+                        className={active === item.id ? 'active': ''}
+                    >
+                        {item.icon}
+                        <span>{item.title}</span>
+                    </li>
                 })}
             </ul>
             <div className="bottom-nav">
-                <li onClick={onLogout}>
-                    {signout} Вихід
+                <li>
+                    {signout} вихід_не_працює
                 </li>
             </div>
         </NavStyled>
-    );
+    )
 }
-
 const NavStyled = styled.nav`
     padding: 2rem 1.5rem;
     width: 374px;
@@ -49,13 +46,12 @@ const NavStyled = styled.nav`
     flex-direction: column;
     justify-content: space-between;
     gap: 2rem;
-
-    .user-con {
+    .user-con{
         height: 100px;
         display: flex;
         align-items: center;
         gap: 1rem;
-        img {
+        img{
             width: 80px;
             height: 80px;
             border-radius: 50%;
@@ -65,19 +61,18 @@ const NavStyled = styled.nav`
             padding: .2rem;
             box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.06);
         }
-        h2 {
+        h2{
             color: rgba(34, 34, 96, 1);
         }
-        p {
+        p{
             color: rgba(34, 34, 96, .6);
         }
     }
-
-    .menu-items {
+    .menu-items{
         flex: 1;
         display: flex;
         flex-direction: column;
-        li {
+        li{
             display: grid;
             grid-template-columns: 40px auto;
             align-items: center;
@@ -88,20 +83,19 @@ const NavStyled = styled.nav`
             color: rgba(34, 34, 96, .6);
             padding-left: 1rem;
             position: relative;
-            i {
+            i{
                 color: rgba(34, 34, 96, 0.6);
                 font-size: 1.4rem;
                 transition: all .4s ease-in-out;
             }
         }
     }
-
-    .active {
+    .active{
         color: rgba(34, 34, 96, 1) !important;
-        i {
+        i{
             color: rgba(34, 34, 96, 1) !important;
         }
-        &::before {
+        &::before{
             content: "";
             position: absolute;
             left: 0;
@@ -112,27 +106,5 @@ const NavStyled = styled.nav`
             border-radius: 0 10px 10px 0;
         }
     }
-
-    .bottom-nav {
-        margin-top: auto;
-        li {
-            cursor: pointer;
-            font-weight: 500;
-            color: rgba(34, 34, 96, .6);
-            display: flex;
-            align-items: center;
-            padding-left: 1rem;
-            transition: all .4s ease-in-out;
-
-            &:hover {
-                color: rgba(34, 34, 96, 1);
-            }
-
-            i {
-                margin-right: 1rem;
-            }
-        }
-    }
 `;
-
-export default Navigation;
+export default Navigation
