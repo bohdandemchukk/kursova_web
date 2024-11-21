@@ -1,78 +1,69 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { useGlobalContext } from '../../context/globalContext';
 import History from '../../History/History';
 import { InnerLayout } from '../../styles/Layouts';
 import { dollar } from '../../utils/Icons';
 import Chart from '../Chart/Chart';
 
-
-
-
 function Dashboard() {
-    const {totalExpenses,incomes, expenses, totalIncome, totalBalance, getIncomes, getExpenses } = useGlobalContext()
+    const { totalExpenses, incomes, expenses, totalIncome, totalBalance, getIncomes, getExpenses } = useGlobalContext();
 
     useEffect(() => {
-        getIncomes()
-        getExpenses()
-    }, [])
+        getIncomes();
+        getExpenses();
+    }, []);
     
-    
-
     return (
         <DashboardStyled>
             <InnerLayout>
                 <h1>Активність</h1>
                 <div className="stats-con">
-                    <div className="chart-con">
-                        <Chart />
-                        <div className="amount-con">
-                            <div className="income">
-                                <h2>Загальні доходи</h2>
-                                <p>
-                                    {dollar} {totalIncome()}
-                                </p>
-                            </div>
-                            <div className="expense">
-                                <h2>Загальні витрати</h2>
-                                <p>
-                                    {dollar} {totalExpenses()}
-                                </p>
-                            </div>
-                            <div className="balance">
-                                <h2>Баланс</h2>
-                                <p>
-                                    {dollar} {totalBalance()}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="history-con">
-                        <History />
-                        <h2 className="salary-title">мінімальний <span> Дохід </span> максимальний</h2>
-                        <div className="salary-item">
-                            <p>
-                                ₴{expenses.length > 0 ? Math.min(...incomes.map(item => item.amount)) : ''}
-                            </p>
-                            <p>
-                                ₴{expenses.length > 0 ? Math.max(...incomes.map(item => item.amount)) : ''}
-                            </p>
-                        </div>
-                        <h2 className="salary-title">мінімальна <span> Витрата </span> максимальна </h2>
-                        <div className="salary-item">
-                            <p>
-                                ₴{expenses.length > 0 ? Math.min(...expenses.map(item => item.amount)) : ''}
-                            </p>
-                            <p>
-                                ₴{expenses.length > 0 ? Math.max(...expenses.map(item => item.amount)) : ''}
-                            </p>
-                        </div>
-                    </div>
+                    <ChartSection totalIncome={totalIncome} totalExpenses={totalExpenses} totalBalance={totalBalance} />
+                    <HistorySection incomes={incomes} expenses={expenses} />
                 </div>
             </InnerLayout>
         </DashboardStyled>
-    )
+    );
 }
+
+const ChartSection = ({ totalIncome, totalExpenses, totalBalance }) => (
+    <div className="chart-con">
+        <Chart />
+        <div className="amount-con">
+            <div className="income">
+                <h2>Загальні доходи</h2>
+                <p>{dollar} {totalIncome()}</p>
+            </div>
+            <div className="expense">
+                <h2>Загальні витрати</h2>
+                <p>{dollar} {totalExpenses()}</p>
+            </div>
+            <div className="balance">
+                <h2>Баланс</h2>
+                <p>{dollar} {totalBalance()}</p>
+            </div>
+        </div>
+    </div>
+);
+
+const HistorySection = ({ incomes, expenses }) => (
+    <div className="history-con">
+        <History />
+        <MinMaxSection title="Дохід" data={incomes} />
+        <MinMaxSection title="Витрата" data={expenses} />
+    </div>
+);
+
+const MinMaxSection = ({ title, data }) => (
+    <>
+        <h2 className="salary-title">мінімальний <span>{title}</span> максимальний</h2>
+        <div className="salary-item">
+            <p>₴{data.length > 0 ? Math.min(...data.map(item => item.amount)) : ''}</p>
+            <p>₴{data.length > 0 ? Math.max(...data.map(item => item.amount)) : ''}</p>
+        </div>
+    </>
+);
 
 const DashboardStyled = styled.div`
     .stats-con{
@@ -87,9 +78,6 @@ const DashboardStyled = styled.div`
                 grid-template-columns: repeat(4, 1fr);
                 gap: 2rem;
                 margin-top: 2rem;
-                .income, .expense{
-                    grid-column: span 2;
-                }
                 .income, .expense, .balance{
                     background: #FCF6F9;
                     border: 2px solid #FFFFFF;
@@ -101,7 +89,6 @@ const DashboardStyled = styled.div`
                         font-weight: 700;
                     }
                 }
-
                 .balance{
                     grid-column: 2 / 4;
                     display: flex;
@@ -116,15 +103,8 @@ const DashboardStyled = styled.div`
                 }
             }
         }
-
         .history-con{
             grid-column: 4 / -1;
-            h2{
-                margin: 1rem 0;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
             .salary-title{
                 font-size: 1.2rem;
                 span{
@@ -149,4 +129,4 @@ const DashboardStyled = styled.div`
     }
 `;
 
-export default Dashboard
+export default Dashboard;

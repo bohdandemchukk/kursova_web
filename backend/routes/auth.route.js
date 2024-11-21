@@ -1,109 +1,39 @@
-const {Router} = require("express")
-const router = Router()
-const bcrypt = require('bcryptjs')
-const User = require('../models/User')
-const {check, validationResult}=require('express-validator')
-const jwt = require('jsonwebtoken')
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
-router.post('/register',
-    [
-        check('email', 'Некоректний email').isEmail(),
-        check('password', "Некоректний пароль").isLength({min:6})
-    ],
-    async(req,res)=>{
+// Register
+router.post('/register', async (req, res) => {
+    const { email, password } = req.body;
     try {
-
-        const errors = validationResult(req)
-        if(!errors.isEmpty()){
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Некоректні дані при реєстрації'
-            })
-        }
-
-        const{email, password} = req.body
-
-        const isUsed = await User.findOne({email})
-        if(isUsed) {
-            return res.status(300).json({message: "Цей email вже зайнятий"})
-        }
-        const hashedPassword = await bcrypt.hash(password, 12)
-        const user = new User({
-            email, password: hashedPassword
-        })
-
-        await user.save()
-
-        res.status(201).json({message: "Акаунт створено"})
-    } catch (error){
-        console.log(error)
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ email, password: hashedPassword });
+        await newUser.save();
+        res.status(201).json({ message: 'User registered' });
+    } catch (error) {
+        res.status(400).json({ error });
     }
-})
+});
 
-
-
-
-router.post('/login',
-    [
-        check('email', 'Некоректний email').isEmail(),
-        check('password', "Некоректний пароль").exists()
-    ],
-    async(req,res)=>{
+// Login
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
     try {
-
-        const errors = validationResult(req)
-        if(!errors.isEmpty()){
-            return res.status(400).json({
-                errors: errors.array(),
-                message: 'Некоректні дані при реєстрації'
-            })
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid credentials' });
         }
-
-        const{email, password} = req.body
-
-
-        const user = await User.findOne({email})
-            if (!user){
-                return res.status(400).json({message: "Такий email не зареєстровано"})
-            }
-
-            const isMatch = bcrypt.compare(password, user.password)
-
-            if(!isMatch){
-                return res.status(400).json({message: "Неправильний пароль"})
-            }
-
-            const jwtSecret = 'bodyademchuk'
-            const token = jwt.sign(
-                {userId: user.id},
-                jwtSecret,
-                {expiresIn:'1h'}
-            )
-
-            res.json({token, userId: user.id})
-
-        
-    } catch (error){
-        console.log(error)
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+        const token = jwt.sign({ id: user._id }, 'secret', { expiresIn: '1h' });
+        res.status(200).json({ token, userId: user._id, email: user.email });
+    } catch (error) {
+        res.status(500).json({ error });
     }
-})
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-module.exports = router
+module.exports = router;

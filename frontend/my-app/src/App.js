@@ -7,6 +7,7 @@ import Navigation from './Components/Navigation/Navigation';
 import Dashboard from './Components/Dashboard/Dashboard';
 import Income from './Components/Income/Income';
 import Expenses from './Components/Expenses/Expenses';
+import { Login, Register } from './Components/AuthPage/AuthPage';
 import { useGlobalContext } from './context/globalContext';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
@@ -20,17 +21,21 @@ function App() {
     return <Orb />;
   }, []);
 
+  const isAuthenticated = !!localStorage.getItem('token');
+
   return (
       <AppStyled bg={bg} className="App">
         {orbMemo}
         <MainLayout>
-          <Navigation active={active} setActive={setActive} />
+          {isAuthenticated && <Navigation active={active} setActive={setActive} />}
           <main>
             <Routes>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/income" element={<Income />} />
-              <Route path="/expenses" element={<Expenses />} />
-              <Route path="/" element={<Navigate to="/dashboard" />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
+              <Route path="/income" element={isAuthenticated ? <Income /> : <Navigate to="/login" />} />
+              <Route path="/expenses" element={isAuthenticated ? <Expenses /> : <Navigate to="/login" />} />
+              <Route path="/" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
             </Routes>
           </main>
         </MainLayout>
