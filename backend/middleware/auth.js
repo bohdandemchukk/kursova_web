@@ -8,11 +8,11 @@ const auth = async (req, res, next) => {
         const user = await User.findOne({ _id: decoded.id });
 
         if (!user) {
-            throw new Error('Будь ласка, авторизуйтеся.');
+            throw new Error;
         }
 
         req.token = token;
-        req.user = user; // Додавання користувача до req
+        req.user = user;  // Додавання користувача до req
         next();
     } catch (error) {
         res.status(401).json({ message: 'Будь ласка, авторизуйтеся.' });

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from 'axios';
 const BASE_URL = "http://localhost:8080/api/v1/";
 const GlobalContext = React.createContext();
@@ -8,75 +8,86 @@ export const GlobalProvider = ({children}) => {
     const [expenses, setExpenses] = useState([]);
     const [error, setError] = useState(null);
 
-    const userId = localStorage.getItem('userId'); // Отримання ID користувача з localStorage
     const token = localStorage.getItem('token'); // Отримання токена з localStorage
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
 
-    // Додавання доходу
     const addIncome = async (income) => {
-        const response = await axios.post(`${BASE_URL}add-income`, {...income, userId}, config)
-            .catch((err) =>{
-                setError(err.response.data.message);
-            });
-        getIncomes();
+        try {
+            const response = await axios.post(`${BASE_URL}add-income`, {...income}, config);
+            getIncomes();
+        } catch (err) {
+            setError(err.response.data.message);
+        }
     };
 
-    // Отримання доходів
     const getIncomes = async () => {
-        const response = await axios.get(`${BASE_URL}get-incomes`, {
-            ...config,
-            params: { userId }
-        });
-        setIncomes(response.data);
-        console.log(response.data);
+        try {
+            const userId = localStorage.getItem('userId');
+            const response = await axios.get(`${BASE_URL}get-incomes`, {
+                ...config,
+                params: { userId }
+            });
+            setIncomes(response.data);
+        } catch (err) {
+            setError(err.response.data.message);
+        }
     };
 
-    // Видалення доходу
     const deleteIncome = async (id) => {
-        const res  = await axios.delete(`${BASE_URL}delete-income/${id}`, config);
-        getIncomes();
+        try {
+            await axios.delete(`${BASE_URL}delete-income/${id}`, config);
+            getIncomes();
+        } catch (err) {
+            setError(err.response.data.message);
+        }
     };
 
     const totalIncome = () => {
         let totalIncome = 0;
         incomes.forEach((income) =>{
-            totalIncome = totalIncome + income.amount;
+            totalIncome += income.amount;
         });
         return totalIncome;
     };
 
-    // Додавання витрати
     const addExpense = async (expense) => {
-        const response = await axios.post(`${BASE_URL}add-expense`, {...expense, userId}, config)
-            .catch((err) =>{
-                setError(err.response.data.message);
-            });
-        getExpenses();
+        try {
+            const response = await axios.post(`${BASE_URL}add-expense`, {...expense}, config);
+            getExpenses();
+        } catch (err) {
+            setError(err.response.data.message);
+        }
     };
 
-    // Отримання витрат
     const getExpenses = async () => {
-        const response = await axios.get(`${BASE_URL}get-expenses`, {
-            ...config,
-            params: { userId }
-        });
-        setExpenses(response.data);
-        console.log(response.data);
+        try {
+            const userId = localStorage.getItem('userId');
+            const response = await axios.get(`${BASE_URL}get-expenses`, {
+                ...config,
+                params: { userId }
+            });
+            setExpenses(response.data);
+        } catch (err) {
+            setError(err.response.data.message);
+        }
     };
 
-    // Видалення витрати
     const deleteExpense = async (id) => {
-        const res  = await axios.delete(`${BASE_URL}delete-expense/${id}`, config);
-        getExpenses();
+        try {
+            await axios.delete(`${BASE_URL}delete-expense/${id}`, config);
+            getExpenses();
+        } catch (err) {
+            setError(err.response.data.message);
+        }
     };
 
     const totalExpenses = () => {
         let totalExpenses = 0;
         expenses.forEach((expense) =>{
-            totalExpenses = totalExpenses + expense.amount;
+            totalExpenses += expense.amount;
         });
         return totalExpenses;
     };
@@ -87,19 +98,33 @@ export const GlobalProvider = ({children}) => {
 
     const transactionHistory = () => {
         const history = [...incomes, ...expenses];
-        history.sort((a, b) => {
-            return new Date(b.createdAt) - new Date(a.createdAt);
-        });
+        history.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         return history.slice(0, 3);
     };
+
+    useEffect(() => {
+        if (token) {
+            const fetchData = async () => {
+                try {
+                    await getIncomes();
+                    await getExpenses();
+                } catch (error) {
+                    console.error('Failed to fetch data', error);
+                }
+            };
+            fetchData();
+        }
+    }, [token]);
 
     return (
         <GlobalContext.Provider value={{
             addIncome,
             getIncomes,
+            setIncomes,
             incomes,
             deleteIncome,
             expenses,
+            setExpenses,
             totalIncome,
             addExpense,
             getExpenses,

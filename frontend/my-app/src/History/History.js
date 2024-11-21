@@ -1,9 +1,15 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
 import { useGlobalContext } from '../context/globalContext';
 
 function History() {
     const {transactionHistory} = useGlobalContext()
+    const {addExpense,expenses, getExpenses, deleteExpense, totalExpenses} = useGlobalContext();
+    const userId = localStorage.getItem('userId'); // Отримання ID користувача
+
+    useEffect(() => {
+        getExpenses(userId);
+    }, [userId]);
 
     const [...history] = transactionHistory()
 

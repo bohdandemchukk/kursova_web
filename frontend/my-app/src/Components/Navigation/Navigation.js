@@ -4,17 +4,20 @@ import avatar from '../../img/avatar.png';
 import { signout } from '../../utils/Icons';
 import { menuItems } from '../../utils/menuItems';
 import { Link, useNavigate } from 'react-router-dom';
+import { useGlobalContext } from '../../context/globalContext'
 
 function Navigation({ active, setActive }) {
+  const {setIncomes, setExpenses} = useGlobalContext();  
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Видаліть токени/сесійні дані
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
-    // Інші необхідні дії для виходу
+    setIncomes([]);
+    setExpenses([]);
     navigate('/login');
 };
+
 
 
   return (

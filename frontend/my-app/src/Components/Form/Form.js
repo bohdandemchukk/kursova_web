@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,7 +8,13 @@ import { plus } from '../../utils/Icons';
 
 
 function Form() {
+
     const {addIncome, getIncomes, error, setError} = useGlobalContext()
+    const userId = localStorage.getItem('userId'); // Отримання ID користувача
+
+    useEffect(() => {
+        getIncomes(userId);
+    }, [userId]);
     const [inputState, setInputState] = useState({
         title: '',
         amount: '',

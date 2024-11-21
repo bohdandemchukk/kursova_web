@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "./AuthPage.scss";
+import { useGlobalContext } from '../../context/globalContext'
 
 const Register = () => {
     const [form, setForm] = useState({
@@ -77,6 +78,7 @@ const Register = () => {
 
 
 const Login = () => {
+    const { getIncomes, getExpenses, setIncomes, setExpenses } = useGlobalContext();
     const [form, setForm] = useState({
         email: '',
         password: ''
@@ -97,8 +99,11 @@ const Login = () => {
                 }
             });
             localStorage.setItem('token', response.data.token);
-            localStorage.setItem('userId', response.data.userId);
-            localStorage.setItem('userEmail', response.data.email);
+            localStorage.setItem('userId', response.data.userId); // Збереження ID користувача
+            setIncomes([]); // Очищення стану
+            setExpenses([]); // Очищення стану
+            getIncomes(response.data.userId); // Завантаження нових даних
+            getExpenses(response.data.userId); // Завантаження нових даних
             navigate('/dashboard');
         } catch (error) {
             console.error("Login error:", error);
@@ -146,5 +151,6 @@ const Login = () => {
         </div>
     );
 };
+
 
 export { Login, Register };

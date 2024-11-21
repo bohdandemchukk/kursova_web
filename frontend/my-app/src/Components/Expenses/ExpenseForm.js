@@ -7,6 +7,7 @@ import Button from '../Button/Button';
 import { plus } from '../../utils/Icons';
 
 function ExpenseForm() {
+    
     const {addExpense, error, setError} = useGlobalContext();
     const [inputState, setInputState] = useState({
         title: '',
