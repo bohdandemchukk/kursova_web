@@ -97,6 +97,7 @@ const Login = () => {
                 }
             });
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('userId', response.data.userId);
             localStorage.setItem('userEmail', response.data.email);
             navigate('/dashboard');
         } catch (error) {

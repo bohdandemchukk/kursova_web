@@ -6,11 +6,13 @@ import Form from '../Form/Form';
 import IncomeItem from '../IncomeItem/IncomeItem';
 
 function Income() {
-    const {addIncome,incomes, getIncomes, deleteIncome, totalIncome} = useGlobalContext()
+    const {addIncome,incomes, getIncomes, deleteIncome, totalIncome} = useGlobalContext();
+    const userId = localStorage.getItem('userId'); // Отримання ID користувача
 
-    useEffect(() =>{
-        getIncomes()
-    }, [])
+    useEffect(() => {
+        getIncomes(userId);
+    }, [userId]);
+
     return (
         <IncomeStyled>
             <InnerLayout>
@@ -40,8 +42,10 @@ function Income() {
                 </div>
             </InnerLayout>
         </IncomeStyled>
-    )
+    );
 }
+
+
 
 const IncomeStyled = styled.div`
     display: flex;

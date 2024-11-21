@@ -8,10 +8,14 @@ import { Link, useNavigate } from 'react-router-dom';
 function Navigation({ active, setActive }) {
   const navigate = useNavigate();
 
-  const handleSignOut = () => {
+  const handleLogout = () => {
+    // Видаліть токени/сесійні дані
     localStorage.removeItem('token');
-    navigate('/');
-  };
+    localStorage.removeItem('userId');
+    // Інші необхідні дії для виходу
+    navigate('/login');
+};
+
 
   return (
     <NavStyled>
@@ -37,7 +41,7 @@ function Navigation({ active, setActive }) {
         ))}
       </MenuItems>
       <BottomNav>
-        <li onClick={handleSignOut}>
+        <li onClick={handleLogout}>
           {signout} Вийти
         </li>
       </BottomNav>

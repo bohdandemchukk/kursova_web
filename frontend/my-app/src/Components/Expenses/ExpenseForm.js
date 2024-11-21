@@ -1,40 +1,39 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import DatePicker from 'react-datepicker'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { useGlobalContext } from '../../context/globalContext';
 import Button from '../Button/Button';
 import { plus } from '../../utils/Icons';
 
-
 function ExpenseForm() {
-    const {addExpense, error, setError} = useGlobalContext()
+    const {addExpense, error, setError} = useGlobalContext();
     const [inputState, setInputState] = useState({
         title: '',
         amount: '',
         date: '',
         category: '',
         description: '',
-    })
+    });
 
-    const { title, amount, date, category,description } = inputState;
+    const { title, amount, date, category, description } = inputState;
 
     const handleInput = name => e => {
-        setInputState({...inputState, [name]: e.target.value})
-        setError('')
-    }
+        setInputState({...inputState, [name]: e.target.value});
+        setError('');
+    };
 
     const handleSubmit = e => {
-        e.preventDefault()
-        addExpense(inputState)
+        e.preventDefault();
+        addExpense(inputState);
         setInputState({
             title: '',
             amount: '',
             date: '',
             category: '',
             description: '',
-        })
-    }
+        });
+    };
 
     return (
         <ExpenseFormStyled onSubmit={handleSubmit}>
@@ -49,8 +48,9 @@ function ExpenseForm() {
                 />
             </div>
             <div className="input-control">
-                <input value={amount}  
+                <input 
                     type="text" 
+                    value={amount}  
                     name={'amount'} 
                     placeholder={'Сума витрати'}
                     onChange={handleInput('amount')} 
@@ -63,13 +63,13 @@ function ExpenseForm() {
                     selected={date}
                     dateFormat="dd/MM/yyyy"
                     onChange={(date) => {
-                        setInputState({...inputState, date: date})
+                        setInputState({...inputState, date: date});
                     }}
                 />
             </div>
             <div className="selects input-control">
                 <select required value={category} name="category" id="category" onChange={handleInput('category')}>
-                    <option value="" disabled >Виберіть опцію</option>
+                    <option value="" disabled>Виберіть опцію</option>
                     <option value="навчання">Навчання</option>
                     <option value="продукти">Продукти</option>
                     <option value="здоров'я">Здоров'я</option>
@@ -81,7 +81,15 @@ function ExpenseForm() {
                 </select>
             </div>
             <div className="input-control">
-                <textarea name="description" value={description} placeholder='Додаткова інформація' id="description" cols="30" rows="4" onChange={handleInput('description')}></textarea>
+                <textarea 
+                    name="description" 
+                    value={description} 
+                    placeholder='Додаткова інформація' 
+                    id="description" 
+                    cols="30" 
+                    rows="4" 
+                    onChange={handleInput('description')}
+                ></textarea>
             </div>
             <div className="submit-btn">
                 <Button 
@@ -94,8 +102,9 @@ function ExpenseForm() {
                 />
             </div>
         </ExpenseFormStyled>
-    )
+    );
 }
+
 
 
 const ExpenseFormStyled = styled.form`

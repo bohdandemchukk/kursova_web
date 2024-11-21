@@ -5,15 +5,16 @@ import History from '../../History/History';
 import { InnerLayout } from '../../styles/Layouts';
 import { dollar } from '../../utils/Icons';
 import Chart from '../Chart/Chart';
-import Orb from '../Orb/Orb'; // Додав імпорт Orb
+import Orb from '../Orb/Orb';
 
 function Dashboard() {
     const { totalExpenses, incomes, expenses, totalIncome, totalBalance, getIncomes, getExpenses } = useGlobalContext();
+    const userId = localStorage.getItem('userId'); // Отримання ID користувача
 
     useEffect(() => {
-        getIncomes();
-        getExpenses();
-    }, []);
+        getIncomes(userId);
+        getExpenses(userId);
+    }, [userId]);
 
     return (
         <DashboardStyled>
@@ -65,11 +66,12 @@ function Dashboard() {
                         </div>
                     </div>
                 </div>
-                <Orb /> {/* Додав компонент Orb */}
+                <Orb />
             </InnerLayout>
         </DashboardStyled>
     );
 }
+
 
 const DashboardStyled = styled.div`
     .stats-con {

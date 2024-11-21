@@ -2,16 +2,17 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useGlobalContext } from '../../context/globalContext';
 import { InnerLayout } from '../../styles/Layouts';
-import Form from '../Form/Form';
-import IncomeItem from '../IncomeItem/IncomeItem';
 import ExpenseForm from './ExpenseForm';
+import IncomeItem from '../IncomeItem/IncomeItem';
 
 function Expenses() {
-    const {addIncome,expenses, getExpenses, deleteExpense, totalExpenses} = useGlobalContext()
+    const {addExpense,expenses, getExpenses, deleteExpense, totalExpenses} = useGlobalContext();
+    const userId = localStorage.getItem('userId'); // Отримання ID користувача
 
-    useEffect(() =>{
-        getExpenses()
-    }, [])
+    useEffect(() => {
+        getExpenses(userId);
+    }, [userId]);
+
     return (
         <ExpenseStyled>
             <InnerLayout>
@@ -24,7 +25,7 @@ function Expenses() {
                     <div className="incomes">
                         {expenses.map((income) => {
                             const {_id, title, amount, date, category, description, type} = income;
-                            console.log(income)
+                            console.log(income);
                             return <IncomeItem
                                 key={_id}
                                 id={_id} 
@@ -42,8 +43,9 @@ function Expenses() {
                 </div>
             </InnerLayout>
         </ExpenseStyled>
-    )
+    );
 }
+
 
 const ExpenseStyled = styled.div`
     display: flex;
