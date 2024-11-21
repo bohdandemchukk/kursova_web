@@ -3,98 +3,36 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "./AuthPage.scss";
 
-const Login = () => {
-    const [form, setForm] = useState({
-        email: '',
-        password: ''
-    });
-    const navigate = useNavigate();
-
-    const changeHandler = (event) => {
-        setForm({ ...form, [event.target.name]: event.target.value });
-        console.log(form); // Додано для дебаггінгу
-    };
-
-    const loginHandler = async () => {
-        console.log("Login handler called"); // Додано для дебаггінгу
-        try {
-            const response = await axios.post('/api/auth/login', { ...form }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            console.log(response.data); // Додано для дебаггінгу
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('userEmail', response.data.email);
-            navigate('/dashboard');
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    return (
-        <div className="container">
-            <div className="auth-page">
-                <h3>Авторизація</h3>
-                <form className="form form-login" onSubmit={e => e.preventDefault()}>
-                    <div className="row">
-                        <div className="input-field col s12">
-                            <input
-                                type="email"
-                                name="email"
-                                className="validate"
-                                onChange={changeHandler}
-                            />
-                            <label htmlFor="email">Email</label>
-                        </div>
-                        <div className="input-field col s12">
-                            <input
-                                type="password"
-                                name="password"
-                                className="validate"
-                                onChange={changeHandler}
-                            />
-                            <label htmlFor="password">Password</label>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <button
-                            className="waves-effect waves-light btn blue"
-                            onClick={loginHandler}
-                        >
-                            Ввійти
-                        </button>
-                        <Link to="/register" className="btn-outline btn-reg">Немає акаунта?</Link>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
-};
-
 const Register = () => {
     const [form, setForm] = useState({
         email: '',
         password: ''
     });
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const changeHandler = (event) => {
         setForm({ ...form, [event.target.name]: event.target.value });
-        console.log(form); // Додано для дебаггінгу
     };
 
-    const registerHandler = async () => {
-        console.log("Register handler called"); // Додано для дебаггінгу
+    const registerHandler = async (event) => {
+        event.preventDefault();
+        console.log("Submitting registration form with data:", form);
         try {
-            await axios.post('/api/auth/register', { ...form }, {
+            const response = await axios.post('http://localhost:8080/api/auth/register', form, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            navigate('/login');
+            console.log("Registration response:", response);
+            if (response.status === 201) {
+                navigate('/login');
+            } else {
+                setError('Не вдалося зареєструватися. Будь ласка, спробуйте ще раз.');
+            }
         } catch (error) {
-            console.error(error);
+            console.error("Registration error:", error);
+            setError(error.response?.data?.message || 'Не вдалося зареєструватися. Будь ласка, спробуйте ще раз.');
         }
     };
 
@@ -102,7 +40,7 @@ const Register = () => {
         <div className="container">
             <div className="auth-page">
                 <h3>Реєстрація</h3>
-                <form className="form form-login" onSubmit={e => e.preventDefault()}>
+                <form className="form form-login" onSubmit={registerHandler}>
                     <div className="row">
                         <div className="input-field col s12">
                             <input
@@ -126,12 +64,86 @@ const Register = () => {
                     <div className="row">
                         <button
                             className="waves-effect waves-light btn blue"
-                            onClick={registerHandler}
+                            type="submit"
                         >
                             Зареєструватись
                         </button>
                         <Link to="/login" className="btn-outline btn-reg">Вже є акаунт?</Link>
                     </div>
+                    {error && <div className="error">{error}</div>}
+                </form>
+            </div>
+        </div>
+    );
+};
+
+
+const Login = () => {
+    const [form, setForm] = useState({
+        email: '',
+        password: ''
+    });
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    const changeHandler = (event) => {
+        setForm({ ...form, [event.target.name]: event.target.value });
+    };
+
+    const loginHandler = async (event) => {
+        event.preventDefault();
+        console.log("Submitting login form with data:", form);
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/login', form, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("Login response:", response);
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('userEmail', response.data.email);
+            navigate('/dashboard');
+        } catch (error) {
+            console.error("Login error:", error);
+            setError('Не вдалося ввійти. Будь ласка, перевірте свої дані.');
+        }
+    };
+
+    return (
+        <div className="container">
+            <div className="auth-page">
+                <h3>Авторизація</h3>
+                <form className="form form-login" onSubmit={loginHandler}>
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input
+                                type="email"
+                                name="email"
+                                className="validate"
+                                onChange={changeHandler}
+                            />
+                            <label htmlFor="email">Email</label>
+                        </div>
+                        <div className="input-field col s12">
+                            <input
+                                type="password"
+                                name="password"
+                                className="validate"
+                                onChange={changeHandler}
+                            />
+                            <label htmlFor="password">Password</label>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <button
+                            className="waves-effect waves-light btn blue"
+                            type="submit"
+                        >
+                            Ввійти
+                        </button>
+                        <Link to="/register" className="btn-outline btn-reg">Немає акаунта?</Link>
+                    </div>
+                    {error && <div className="error">{error}</div>}
                 </form>
             </div>
         </div>

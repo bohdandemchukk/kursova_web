@@ -11,7 +11,6 @@ import { Login, Register } from './Components/AuthPage/AuthPage';
 import { useGlobalContext } from './context/globalContext';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-
 function App() {
   const [active, setActive] = useState(1);
   const global = useGlobalContext();
