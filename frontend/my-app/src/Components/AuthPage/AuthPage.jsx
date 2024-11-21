@@ -17,14 +17,12 @@ const Register = () => {
 
     const registerHandler = async (event) => {
         event.preventDefault();
-        console.log("Submitting registration form with data:", form);
         try {
             const response = await axios.post('http://localhost:8080/api/auth/register', form, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log("Registration response:", response);
             if (response.status === 201) {
                 navigate('/login');
             } else {
@@ -92,14 +90,12 @@ const Login = () => {
 
     const loginHandler = async (event) => {
         event.preventDefault();
-        console.log("Submitting login form with data:", form);
         try {
             const response = await axios.post('http://localhost:8080/api/auth/login', form, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log("Login response:", response);
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('userEmail', response.data.email);
             navigate('/dashboard');

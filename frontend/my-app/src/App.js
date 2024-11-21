@@ -26,7 +26,7 @@ function App() {
       <AppStyled bg={bg} className="App">
         {orbMemo}
         <MainLayout>
-          {isAuthenticated && <Navigation active={active} setActive={setActive} />}
+          {isAuthenticated ? <Navigation active={active} setActive={setActive} /> : null}
           <main>
             <Routes>
               <Route path="/login" element={<Login />} />
