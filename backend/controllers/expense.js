@@ -1,4 +1,3 @@
-
 const ExpenseSchema = require("../models/ExpenseModel")
 
 

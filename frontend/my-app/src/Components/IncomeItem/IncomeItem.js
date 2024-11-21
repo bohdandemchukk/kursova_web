@@ -165,4 +165,3 @@ const IncomeItemStyled = styled.div`
 `;
 
 export default IncomeItem
-
