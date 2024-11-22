@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import avatar from '../../img/avatar.png';
+import ikonka from '../../img/ikonka.png';
 import { signout } from '../../utils/Icons';
 import { menuItems } from '../../utils/menuItems';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { useGlobalContext } from '../../context/globalContext'
 function Navigation({ active, setActive }) {
   const {setIncomes, setExpenses} = useGlobalContext();  
   const navigate = useNavigate();
+  const userEmail = localStorage.getItem('userEmail');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -23,10 +24,10 @@ function Navigation({ active, setActive }) {
   return (
     <NavStyled>
       <UserContainer>
-        <img src={avatar} alt="" />
+        <img src={ikonka} alt="" />
         <div className="text">
-          <h2>Демчук Богдан</h2>
-          <p>Бюджет</p>
+          <h2>Витрати і доходи</h2>
+          <p>{userEmail}</p>
         </div>
       </UserContainer>
       <MenuItems>
