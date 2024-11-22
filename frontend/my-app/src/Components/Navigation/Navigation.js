@@ -1,13 +1,16 @@
+// navigation.js
+
 import React from 'react';
 import styled from 'styled-components';
 import ikonka from '../../img/ikonka.png';
+import ikonka2 from '../../img/ikonka2.png';
 import { signout } from '../../utils/Icons';
 import { menuItems } from '../../utils/menuItems';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../../context/globalContext'
 
 function Navigation({ active, setActive }) {
-  const {setIncomes, setExpenses} = useGlobalContext();  
+  const { setIncomes, setExpenses } = useGlobalContext();  
   const navigate = useNavigate();
   const userEmail = localStorage.getItem('userEmail');
 
@@ -17,14 +20,12 @@ function Navigation({ active, setActive }) {
     setIncomes([]);
     setExpenses([]);
     navigate('/login');
-};
-
-
+  };
 
   return (
     <NavStyled>
       <UserContainer>
-        <img src={ikonka} alt="" />
+        <img src={ikonka2} alt="" />
         <div className="text">
           <h2>Витрати і доходи</h2>
           <p>{userEmail}</p>
@@ -57,8 +58,8 @@ const NavStyled = styled.nav`
   padding: 2rem 1.5rem;
   width: 374px;
   height: 100%;
-  background: rgba(252, 246, 249, 0.78);
-  border: 3px solid #330f00;
+  background: #1e1e2f; /* Темний фон */
+  border: 3px solid #2e2e3f; /* Злегка світліший темний колір */
   backdrop-filter: blur(4.5px);
   border-radius: 32px;
   display: flex;
@@ -77,16 +78,16 @@ const UserContainer = styled.div`
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
-    background: #fcf6f9;
-    border: 2px solid #330f00;
+    background: #2e2e3f; /* Злегка світліший темний колір */
+    border: 2px solid #00ffcc; /* Зелений акцент */
     padding: 0.2rem;
     box-shadow: 0px 1px 17px rgba(0, 0, 0, 0.06);
   }
   h2 {
-    color: rgba(34, 34, 96, 1);
+    color: #ffffff; /* Білий текст */
   }
   p {
-    color: rgba(34, 34, 96, 0.6);
+    color: #00ffcc; /* Зелений акцент */
   }
 `;
 
@@ -102,7 +103,7 @@ const MenuItems = styled.ul`
     font-weight: 500;
     cursor: pointer;
     transition: all 0.4s ease-in-out;
-    color: rgba(34, 34, 96, 0.6);
+    color: #ffffff; /* Білий текст */
     padding: 0.5rem 1rem;
     position: relative;
     a {
@@ -114,16 +115,16 @@ const MenuItems = styled.ul`
       font-size: 1rem;
     }
     &:hover {
-      color: rgba(34, 34, 96, 1);
+      color: #00ffcc; /* Зелений акцент */
       i {
-        color: rgba(34, 34, 96, 1);
+        color: #00ffcc; /* Зелений акцент */
       }
     }
   }
   .active {
-    color: rgba(34, 34, 96, 1) !important;
+    color: #00ffcc !important; /* Зелений акцент */
     i {
-      color: rgba(34, 34, 96, 1) !important;
+      color: #00ffcc !important; /* Зелений акцент */
     }
     &::before {
       content: '';
@@ -132,7 +133,7 @@ const MenuItems = styled.ul`
       top: 0;
       width: 4px;
       height: 100%;
-      background: #222260;
+      background: #00ffcc; /* Зелений акцент */
       border-radius: 0 10px 10px 0;
     }
   }
@@ -146,11 +147,11 @@ const BottomNav = styled.div`
     font-weight: 500;
     cursor: pointer;
     transition: all 0.4s ease-in-out;
-    color: rgba(34, 34, 96, 0.6);
+    color: #ffffff; /* Білий текст */
     padding: 0.5rem 1rem;
     position: relative;
     &:hover {
-      color: rgba(34, 34, 96, 1);
+      color: #00ffcc; /* Зелений акцент */
     }
   }
 `;

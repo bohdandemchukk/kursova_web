@@ -1,12 +1,12 @@
+// incomeitem.js
+
 import React from 'react'
 import styled from 'styled-components'
 import { dateFormat } from '../../utils/dateFormat';
 import { bitcoin, book, calender, card, circle, clothing, comment, dollar, food, freelance, medical, money, piggy, stocks, takeaway, trash, tv, users, yt } from '../../utils/Icons';
 import Button from '../Button/Button';
 
-function IncomeItem(
-    
-    {
+function IncomeItem({
     id,
     title,
     amount,
@@ -85,10 +85,10 @@ function IncomeItem(
                             icon={trash}
                             bPad={'1rem'}
                             bRad={'50%'}
-                            bg={'var(--primary-color'}
+                            bg={'#00ffcc'} // Зелений акцент
                             color={'#fff'}
                             iColor={'#fff'}
-                            hColor={'var(--color-green)'}
+                            hColor={'#00ffaa'} // Світло-зелений акцент
                             onClick={() => deleteItem(id)}
                         />
                     </div>
@@ -99,8 +99,8 @@ function IncomeItem(
 }
 
 const IncomeItemStyled = styled.div`
-    background: #FCF6F9;
-    border: 2px solid #FFFFFF;
+    background: #1e1e2f; /* Темний фон */
+    border: 2px solid #2e2e3f; /* Злегка світліший темний колір */
     box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
     border-radius: 20px;
     padding: 1rem;
@@ -109,31 +109,32 @@ const IncomeItemStyled = styled.div`
     align-items: center;
     gap: 1rem;
     width: 100%;
-    color: #222260;
-    .icon{
+    color: #ffffff; /* Білий текст */
+    .icon {
         width: 80px;
         height: 80px;
         border-radius: 20px;
-        background: #F5F5F5;
+        background: #2e2e3f; /* Злегка світліший темний колір */
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px solid #FFFFFF;
-        i{
+        border: 2px solid #00ffcc; /* Зелений акцент */
+        i {
             font-size: 2.6rem;
         }
     }
 
-    .content{
+    .content {
         flex: 1;
         display: flex;
         flex-direction: column;
         gap: .2rem;
-        h5{
+        h5 {
             font-size: 1.3rem;
             padding-left: 2rem;
             position: relative;
-            &::before{
+            color: #00ffcc; /* Зелений акцент */
+            &::before {
                 content: '';
                 position: absolute;
                 left: 0;
@@ -146,19 +147,19 @@ const IncomeItemStyled = styled.div`
             }
         }
 
-        .inner-content{
+        .inner-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            .text{
+            .text {
                 display: flex;
                 align-items: center;
                 gap: 1.5rem;
-                p{
+                p {
                     display: flex;
                     align-items: center;
                     gap: 0.5rem;
-                    color: var(--primary-color);
+                    color: #ffffff; /* Білий текст */
                     opacity: 0.8;
                 }
             }
@@ -166,4 +167,4 @@ const IncomeItemStyled = styled.div`
     }
 `;
 
-export default IncomeItem
+export default IncomeItem;

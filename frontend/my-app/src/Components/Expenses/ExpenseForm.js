@@ -1,3 +1,5 @@
+// expenseform.js
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
@@ -7,8 +9,7 @@ import Button from '../Button/Button';
 import { plus } from '../../utils/Icons';
 
 function ExpenseForm() {
-    
-    const {addExpense, error, setError} = useGlobalContext();
+    const { addExpense, error, setError } = useGlobalContext();
     const [inputState, setInputState] = useState({
         title: '',
         amount: '',
@@ -20,7 +21,7 @@ function ExpenseForm() {
     const { title, amount, date, category, description } = inputState;
 
     const handleInput = name => e => {
-        setInputState({...inputState, [name]: e.target.value});
+        setInputState({ ...inputState, [name]: e.target.value });
         setError('');
     };
 
@@ -98,7 +99,7 @@ function ExpenseForm() {
                     icon={plus}
                     bPad={'.8rem 1.6rem'}
                     bRad={'30px'}
-                    bg={'var(--color-accent'}
+                    bg={'#ff6347'} // Червоний акцент
                     color={'#fff'}
                 />
             </div>
@@ -106,52 +107,51 @@ function ExpenseForm() {
     );
 }
 
-
-
 const ExpenseFormStyled = styled.form`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    input, textarea, select{
+    input, textarea, select {
         font-family: inherit;
         font-size: inherit;
         outline: none;
         border: none;
         padding: .5rem 1rem;
         border-radius: 5px;
-        border: 2px solid #fff;
-        background: transparent;
+        border: 2px solid #2e2e3f; /* Злегка світліший темний колір */
+        background: #1e1e2f; /* Темний фон */
         resize: none;
         box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-        color: rgba(34, 34, 96, 0.9);
-        &::placeholder{
-            color: rgba(34, 34, 96, 0.4);
+        color: #ffffff; /* Білий текст */
+        &::placeholder {
+            color: #7d7d7d; /* Світло-сірий текст для підказок */
         }
     }
-    .input-control{
-        input{
+    .input-control {
+        input {
             width: 100%;
         }
     }
 
-    .selects{
+    .selects {
         display: flex;
         justify-content: flex-end;
-        select{
-            color: rgba(34, 34, 96, 0.4);
-            &:focus, &:active{
-                color: rgba(34, 34, 96, 1);
+        select {
+            color: #7d7d7d; /* Світло-сірий текст для підказок */
+            &:focus, &:active {
+                color: #ffffff; /* Білий текст */
             }
         }
     }
 
-    .submit-btn{
-        button{
+    .submit-btn {
+        button {
             box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-            &:hover{
-                background: var(--color-green) !important;
+            &:hover {
+                background: #ff4500 !important; /* Світло-червоний колір при наведенні */
             }
         }
     }
 `;
-export default ExpenseForm
+
+export default ExpenseForm;

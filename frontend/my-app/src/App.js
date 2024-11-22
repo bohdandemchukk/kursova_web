@@ -48,8 +48,8 @@ const AppStyled = styled.div`
   position: relative;
   main {
     flex: 1;
-    background: rgba(252, 246, 249, 0.78);
-    border: 3px solid;
+    background: rgba(30, 30, 47, 0.8);
+    border: 3px solid rgba(46,46,63,0.8);
     backdrop-filter: blur(4.5px);
     border-radius: 32px;
     overflow-x: hidden;

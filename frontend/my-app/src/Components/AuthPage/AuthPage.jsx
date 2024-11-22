@@ -100,7 +100,7 @@ const Login = () => {
             });
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('userId', response.data.userId); // Збереження ID користувача
-            localStorage.setItem('userEmail', response.data.email);
+            localStorage.setItem('email', response.data.email);
             setIncomes([]); // Очищення стану
             setExpenses([]); // Очищення стану
             getIncomes(response.data.userId); // Завантаження нових даних

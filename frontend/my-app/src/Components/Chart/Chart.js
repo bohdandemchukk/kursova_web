@@ -1,3 +1,5 @@
+// chart.js
+
 import React from 'react';
 import {
     Chart as ChartJs,
@@ -61,16 +63,16 @@ function Chart() {
             {
                 label: 'Доходи',
                 data: incomeData,
-                backgroundColor: 'green',
-                borderColor: 'green',
+                backgroundColor: '#00ffcc', // Зелений акцент
+                borderColor: '#00ffcc', // Зелений акцент
                 fill: false, // Для лінійного графіка
                 tension: 0.2,
             },
             {
                 label: 'Витрати',
                 data: expenseData,
-                backgroundColor: 'red',
-                borderColor: 'red',
+                backgroundColor: '#ff6347', // Червоний акцент
+                borderColor: '#ff6347', // Червоний акцент
                 fill: false, // Для лінійного графіка
                 tension: 0.2,
             },
@@ -84,15 +86,14 @@ function Chart() {
     );
 }
 
-
-
 const ChartStyled = styled.div`
-    background: #FCF6F9;
-    border: 2px solid #FFFFFF;
+    background: #1e1e2f; /* Темний фон */
+    border: 4px solid #2e2e3f; /* Злегка світліший темний колір */
     box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
     padding: 1rem;
     border-radius: 20px;
     height: 100%;
+    color: #ffffff; /* Білий текст */
 `;
 
 export default Chart;
