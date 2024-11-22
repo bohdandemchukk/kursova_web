@@ -17,6 +17,7 @@ function Navigation({ active, setActive }) {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userEmail'); // Очищення email при виході
     setIncomes([]);
     setExpenses([]);
     navigate('/login');

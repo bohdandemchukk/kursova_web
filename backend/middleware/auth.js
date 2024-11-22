@@ -15,7 +15,7 @@ const auth = async (req, res, next) => {
         req.user = user;  // Додавання користувача до req
         next();
     } catch (error) {
-        res.status(401).json({ message: 'Будь ласка, авторизуйтеся.' });
+        res.status(401).json();
     }
 };
 
