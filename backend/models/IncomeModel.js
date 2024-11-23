@@ -33,7 +33,7 @@ const IncomeSchema = new mongoose.Schema({
         maxLength: 200,
         trim: true
     },
-    userId: { // Додаємо userId
+    userId: { 
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true

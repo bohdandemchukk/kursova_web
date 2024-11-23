@@ -10,7 +10,7 @@ import { plus } from '../../utils/Icons';
 
 function Form() {
     const { addIncome, getIncomes, error, setError } = useGlobalContext();
-    const userId = localStorage.getItem('userId'); // Отримання ID користувача
+    const userId = localStorage.getItem('userId'); 
 
     useEffect(() => {
         getIncomes(userId);
@@ -104,7 +104,7 @@ function Form() {
                     icon={plus}
                     bPad={'.8rem 1.6rem'}
                     bRad={'30px'}
-                    bg={'#00ffcc'} // Зелений акцент
+                    bg={'#00ffcc'} 
                     color={'#fff'}
                 />
             </div>

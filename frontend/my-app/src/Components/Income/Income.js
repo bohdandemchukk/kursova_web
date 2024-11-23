@@ -9,7 +9,7 @@ import IncomeItem from '../IncomeItem/IncomeItem';
 
 function Income() {
     const { addIncome, incomes, getIncomes, deleteIncome, totalIncome } = useGlobalContext();
-    const userId = localStorage.getItem('userId'); // Отримання ID користувача
+    const userId = localStorage.getItem('userId'); 
 
     useEffect(() => {
         getIncomes(userId);
@@ -36,7 +36,7 @@ function Income() {
                                 date={date}
                                 type={type}
                                 category={category}
-                                indicatorColor="#00ffcc" /* Зелений акцент */
+                                indicatorColor="#00ffcc"
                                 deleteItem={deleteIncome}
                             />
                         })}

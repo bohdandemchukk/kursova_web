@@ -8,7 +8,7 @@ export const GlobalProvider = ({children}) => {
     const [expenses, setExpenses] = useState([]);
     const [error, setError] = useState(null);
 
-    const token = localStorage.getItem('token'); // Отримання токена з localStorage
+    const token = localStorage.getItem('token');
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }

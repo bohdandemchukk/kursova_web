@@ -2,7 +2,7 @@ const ExpenseSchema = require("../models/ExpenseModel");
 
 exports.addExpense = async (req, res) => {
     const { title, amount, category, description, date } = req.body;
-    const userId = req.user._id; // Отримання userId
+    const userId = req.user._id; 
 
     const expense = ExpenseSchema({
         title,
@@ -10,34 +10,34 @@ exports.addExpense = async (req, res) => {
         category,
         description,
         date,
-        userId // Збереження userId
+        userId 
     });
 
     try {
-        // validations
+        
         if (!title || !category || !description || !date) {
-            return res.status(400).json({ message: 'All fields are required!' });
+            return res.status(400).json({ message: "Всі поля обов'язкові" });
         }
         if (amount <= 0 || !amount === 'number') {
-            return res.status(400).json({ message: 'Amount must be a positive number!' });
+            return res.status(400).json({ message: 'Сума має бути додатнім числом' });
         }
         await expense.save();
-        res.status(200).json({ message: 'Expense Added' });
+        res.status(200).json({ message: 'Витрата додана' });
     } catch (error) {
-        res.status(500).json({ message: 'Server Error' });
+        res.status(500).json({ message: 'Помилка сервера' });
     }
 
     console.log(expense);
 };
 
 exports.getExpense = async (req, res) => {
-    const userId = req.user._id; // Отримання userId
+    const userId = req.user._id; 
 
     try {
         const expenses = await ExpenseSchema.find({ userId }).sort({ createdAt: -1 });
         res.status(200).json(expenses);
     } catch (error) {
-        res.status(500).json({ message: 'Server Error' });
+        res.status(500).json({ message: 'Помилка сервера' });
     }
 };
 
@@ -45,9 +45,9 @@ exports.deleteExpense = async (req, res) => {
     const { id } = req.params;
     ExpenseSchema.findByIdAndDelete(id)
         .then((expense) => {
-            res.status(200).json({ message: 'Expense Deleted' });
+            res.status(200).json({ message: 'Витрата видалена' });
         })
         .catch((err) => {
-            res.status(500).json({ message: 'Server Error' });
+            res.status(500).json({ message: 'Помилка сервера' });
         });
 };

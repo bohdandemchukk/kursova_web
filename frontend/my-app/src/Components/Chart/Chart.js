@@ -1,4 +1,4 @@
-// chart.js
+
 
 import React from 'react';
 import {
@@ -32,17 +32,17 @@ ChartJs.register(
 function Chart() {
     const { incomes, expenses } = useGlobalContext();
 
-    // Поєднання доходів та витрат для упорядкування за датою
+    
     const combinedData = [...incomes.map(inc => ({ ...inc, type: 'income' })), 
                           ...expenses.map(exp => ({ ...exp, type: 'expense' }))];
 
-    // Сортування за датою
+    
     combinedData.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    // Отримання унікальних міток (дат) у хронологічному порядку
+    
     const labels = [...new Set(combinedData.map(item => dateFormat(item.date)))];
 
-    // Створення масивів для доходів та витрат
+    
     const incomeData = labels.map(label => {
         const item = combinedData.find(
             data => dateFormat(data.date) === label && data.type === 'income'
@@ -63,17 +63,17 @@ function Chart() {
             {
                 label: 'Доходи',
                 data: incomeData,
-                backgroundColor: '#00ffcc', // Зелений акцент
-                borderColor: '#00ffcc', // Зелений акцент
-                fill: false, // Для лінійного графіка
+                backgroundColor: '#00ffcc', 
+                borderColor: '#00ffcc', 
+                fill: false, 
                 tension: 0.2,
             },
             {
                 label: 'Витрати',
                 data: expenseData,
-                backgroundColor: '#ff6347', // Червоний акцент
-                borderColor: '#ff6347', // Червоний акцент
-                fill: false, // Для лінійного графіка
+                backgroundColor: '#ff6347', 
+                borderColor: '#ff6347', 
+                fill: false, 
                 tension: 0.2,
             },
         ],

@@ -12,7 +12,7 @@ const auth = async (req, res, next) => {
         }
 
         req.token = token;
-        req.user = user;  // Додавання користувача до req
+        req.user = user;  
         next();
     } catch (error) {
         res.status(401).json();

@@ -11,7 +11,7 @@ import Orb from '../Orb/Orb';
 
 function Dashboard() {
     const { totalExpenses, incomes, expenses, totalIncome, totalBalance, getIncomes, getExpenses } = useGlobalContext();
-    const userId = localStorage.getItem('userId'); // Отримання ID користувача
+    const userId = localStorage.getItem('userId'); 
 
     useEffect(() => {
         getIncomes(userId);

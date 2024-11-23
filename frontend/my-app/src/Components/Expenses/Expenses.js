@@ -9,7 +9,7 @@ import IncomeItem from '../IncomeItem/IncomeItem';
 
 function Expenses() {
     const { addExpense, expenses, getExpenses, deleteExpense, totalExpenses } = useGlobalContext();
-    const userId = localStorage.getItem('userId'); // Отримання ID користувача
+    const userId = localStorage.getItem('userId'); 
 
     useEffect(() => {
         getExpenses(userId);

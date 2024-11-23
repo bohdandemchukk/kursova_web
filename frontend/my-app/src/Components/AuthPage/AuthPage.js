@@ -38,12 +38,12 @@ const AuthPage = ({ mode }) => {
                     }
                 });
                 localStorage.setItem('token', response.data.token);
-                localStorage.setItem('userId', response.data.userId); // Збереження ID користувача
-                localStorage.setItem('userEmail', response.data.email); // Збереження email користувача
-                setIncomes([]); // Очищення стану
-                setExpenses([]); // Очищення стану
-                getIncomes(response.data.userId); // Завантаження нових даних
-                getExpenses(response.data.userId); // Завантаження нових даних
+                localStorage.setItem('userId', response.data.userId); 
+                localStorage.setItem('userEmail', response.data.email);
+                setIncomes([]); 
+                setExpenses([]); 
+                getIncomes(response.data.userId); 
+                getExpenses(response.data.userId); 
                 navigate('/dashboard');
             }
         } catch (error) {

@@ -85,10 +85,10 @@ function IncomeItem({
                             icon={trash}
                             bPad={'1rem'}
                             bRad={'50%'}
-                            bg={'#00ffcc'} // Зелений акцент
+                            bg={'#00ffcc'} 
                             color={'#fff'}
                             iColor={'#fff'}
-                            hColor={'#00ffaa'} // Світло-зелений акцент
+                            hColor={'#00ffaa'} 
                             onClick={() => deleteItem(id)}
                         />
                     </div>

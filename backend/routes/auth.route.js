@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Register
+
 router.post('/register', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -21,17 +21,17 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Login
+
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: 'Невірні облікові дані' });
+            return res.status(400).json({ message: 'Неправильні облікові дані' });
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Невірні облікові дані' });
+            return res.status(400).json({ message: 'Неправильні облікові дані' });
         }
         const token = jwt.sign({ id: user._id }, 'secret', { expiresIn: '1h' });
         res.status(200).json({ token, userId: user._id, email: user.email });
@@ -40,7 +40,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Get user data
+
 router.get('/me', async (req, res) => {
     const token = req.headers['authorization'];
 
