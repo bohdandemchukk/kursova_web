@@ -1,9 +1,7 @@
-// incomeitem.js
-
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 import { dateFormat } from '../../utils/dateFormat';
-import { bitcoin, book, calender, card, circle, clothing, comment, dollar, food, freelance, medical, money, piggy, stocks, takeaway, trash, tv, users, yt } from '../../utils/Icons';
+import { bitcoin, book, calender, card, circle, clothing, comment, dollar, food, freelance, medical, money, piggy, stocks, takeaway, trash, tv, users, yt, pencil } from '../../utils/Icons'; // Додаємо іконку олівця
 import Button from '../Button/Button';
 
 function IncomeItem({
@@ -15,15 +13,20 @@ function IncomeItem({
     description,
     deleteItem,
     indicatorColor,
-    type
+    type,
+    isEditing,
+    newAmount,
+    setNewAmount,
+    handleEditClick,
+    saveUpdate
 }) {
 
-    const categoryIcon = () =>{
+    const categoryIcon = () => {
         switch(category) {
             case 'зарплата':
                 return money;
             case 'фріланс':
-                return freelance
+                return freelance;
             case 'стипендія':
                 return stocks;
             case 'від батьків':
@@ -35,9 +38,9 @@ function IncomeItem({
             case 'інше':
                 return piggy;
             default:
-                return ''
+                return '';
         }
-    }
+    };
 
     const expenseCatIcon = () => {
         switch (category) {
@@ -58,11 +61,9 @@ function IncomeItem({
             case 'інше':
                 return circle;
             default:
-                return ''
+                return '';
         }
-    }
-
-    console.log('type', type)
+    };
 
     return (
         <IncomeItemStyled indicator={indicatorColor}>
@@ -73,29 +74,60 @@ function IncomeItem({
                 <h5>{title}</h5>
                 <div className="inner-content">
                     <div className="text">
-                        <p>{dollar} {amount}</p>
+                        <p>{dollar} {isEditing ? (
+                            <input
+                                type="number"
+                                value={newAmount}
+                                onChange={(e) => setNewAmount(e.target.value)}
+                                
+                            />
+                        ) : (
+                            amount
+                        )}</p>
                         <p>{calender} {dateFormat(date)}</p>
                         <p>
-                            {comment}
-                            {description}
+                            {comment} {description}
                         </p>
                     </div>
                     <div className="btn-con">
                         <Button 
                             icon={trash}
                             bPad={'1rem'}
-                            bRad={'50%'}
-                            bg={'#00ffcc'} 
+                            bRad={'50%'} // Робимо кнопку круглою
+                            bg={'#ff6347'} 
                             color={'#fff'}
                             iColor={'#fff'}
-                            hColor={'#00ffaa'} 
+                            hColor={'#ff4500'} 
                             onClick={() => deleteItem(id)}
                         />
+                        {isEditing ? (
+                            <Button 
+                                name={'Save'}
+                                bPad={'1rem'}
+                                bRad={'30px'}
+                                bg={'#00ffcc'} 
+                                color={'#fff'}
+                                iColor={'#fff'}
+                                hColor={'#00ffaa'} 
+                                onClick={() => saveUpdate(id)}
+                            />
+                        ) : (
+                            <Button 
+                                icon={pencil} // Замість тексту "Edit" використовуємо іконку олівця
+                                bPad={'1rem'}
+                                bRad={'30px'}
+                                bg={'#00ffcc'} 
+                                color={'#fff'}
+                                iColor={'#fff'}
+                                hColor={'#00ffaa'} 
+                                onClick={handleEditClick}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
         </IncomeItemStyled>
-    )
+    );
 }
 
 const IncomeItemStyled = styled.div`
@@ -161,9 +193,23 @@ const IncomeItemStyled = styled.div`
                     gap: 0.5rem;
                     color: #ffffff; /* Білий текст */
                     opacity: 0.8;
+                    input {
+                        width: 100px;
+                        background: #1e1e2f;
+                        border: 1px solid #2e2e3f;
+                        color: #fff;
+                        padding: 5px;
+                        border-radius: 5px;
+                        text-align: center;
+                    }
                 }
             }
         }
+    }
+
+    .btn-con {
+        display: flex;
+        gap: 0.5rem;
     }
 `;
 

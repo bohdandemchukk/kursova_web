@@ -45,9 +45,18 @@ export const GlobalProvider = ({children}) => {
         }
     };
 
+    const updateIncome = async (id, amount) => {
+        try {
+            const response = await axios.put(`${BASE_URL}update-income/${id}`, { amount }, config);
+            getIncomes(); 
+        } catch (err) {
+            setError(err.response.data.message);
+        }
+    };
+
     const totalIncome = () => {
         let totalIncome = 0;
-        incomes.forEach((income) =>{
+        incomes.forEach((income) => {
             totalIncome += income.amount;
         });
         return totalIncome;
@@ -84,9 +93,18 @@ export const GlobalProvider = ({children}) => {
         }
     };
 
+    const updateExpense = async (id, amount) => {
+        try {
+            const response = await axios.put(`${BASE_URL}update-expense/${id}`, { amount }, config);
+            getExpenses();
+        } catch (err) {
+            setError(err.response.data.message);
+        }
+    };
+
     const totalExpenses = () => {
         let totalExpenses = 0;
-        expenses.forEach((expense) =>{
+        expenses.forEach((expense) => {
             totalExpenses += expense.amount;
         });
         return totalExpenses;
@@ -123,12 +141,14 @@ export const GlobalProvider = ({children}) => {
             setIncomes,
             incomes,
             deleteIncome,
+            updateIncome, 
             expenses,
             setExpenses,
             totalIncome,
             addExpense,
             getExpenses,
             deleteExpense,
+            updateExpense, 
             totalExpenses,
             totalBalance,
             transactionHistory,

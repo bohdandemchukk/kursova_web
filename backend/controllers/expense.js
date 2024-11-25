@@ -51,3 +51,18 @@ exports.deleteExpense = async (req, res) => {
             res.status(500).json({ message: 'Помилка сервера' });
         });
 };
+
+exports.updateExpense = async (req, res) => {
+    const { id } = req.params;
+    const { amount } = req.body;
+
+    try {
+        const updatedExpense = await ExpenseSchema.findByIdAndUpdate(id, { amount }, { new: true });
+        if (!updatedExpense) {
+            return res.status(404).json({ message: 'Витрату не знайдено' });
+        }
+        res.status(200).json(updatedExpense);
+    } catch (error) {
+        res.status(500).json({ message: 'Помилка сервера' });
+    }
+};

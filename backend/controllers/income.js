@@ -51,3 +51,19 @@ exports.deleteIncome = async (req, res) => {
             res.status(500).json({ message: 'Помилка сервера' });
         });
 };
+
+exports.updateIncome = async (req, res) => {
+    const { id } = req.params;
+    const { amount } = req.body;
+
+    try {
+        const updatedIncome = await IncomeSchema.findByIdAndUpdate(id, { amount }, { new: true });
+        if (!updatedIncome) {
+            return res.status(404).json({ message: 'Дохід не знайдено' });
+        }
+        res.status(200).json(updatedIncome);
+    } catch (error) {
+        res.status(500).json({ message: 'Помилка сервера' });
+    }
+};
+

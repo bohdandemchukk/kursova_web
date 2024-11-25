@@ -1,5 +1,3 @@
-// dashboard.js
-
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useGlobalContext } from '../../context/globalContext';
@@ -18,6 +16,8 @@ function Dashboard() {
         getExpenses(userId);
     }, [userId]);
 
+    const balanceColor = totalBalance() < 0 ? '#ff6347' : '#00ffcc'; // Умовна логіка для зміни кольору
+
     return (
         <DashboardStyled>
             <InnerLayout>
@@ -34,13 +34,13 @@ function Dashboard() {
                             </div>
                             <div className="expense">
                                 <h2 style={{ color: '#ffffff' }}>Усі витрати</h2>
-                                <p style={{ color: '#00ffcc' }}>
+                                <p style={{ color: '#ff6347' }}>
                                     {dollar} {totalExpenses()}
                                 </p>
                             </div>
                             <div className="balance">
                                 <h2 style={{ color: '#ffffff' }}>Баланс</h2>
-                                <p style={{ color: '#00ffcc' }}>
+                                <p style={{ color: balanceColor }}>
                                     {dollar} {totalBalance()}
                                 </p>
                             </div>
@@ -59,10 +59,10 @@ function Dashboard() {
                         </div>
                         <h2 className="salary-title" style={{ color: '#ffffff' }}>мінімальна <span>Витрата</span> максимальна</h2>
                         <div className="salary-item">
-                            <p style={{ color: '#00ffcc' }}>
+                            <p style={{ color: '#ff6347' }}>
                                 ₴{expenses.length > 0 ? Math.min(...expenses.map(item => item.amount)) : ''}
                             </p>
-                            <p style={{ color: '#00ffcc' }}>
+                            <p style={{ color: '#ff6347' }}>
                                 ₴{expenses.length > 0 ? Math.max(...expenses.map(item => item.amount)) : ''}
                             </p>
                         </div>
